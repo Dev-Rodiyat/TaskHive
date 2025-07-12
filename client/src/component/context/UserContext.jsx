@@ -44,15 +44,13 @@ export const UserProvider = ({ children }) => {
 
         if (!name || !email || !password || !confirmPassword) {
             setFormValidMessage('Oops, all fields are required');
-            return;
+            return { success: false };
         }
 
         if (password !== confirmPassword) {
             setFormValidMessage('Oops, passwords do not match');
-            return;
+            return { success: false };
         }
-
-        const navigate = useNavigate(); // ❌ WRONG if placed here globally — ✅ OK inside function
 
         try {
             setLoading(true);
@@ -68,7 +66,7 @@ export const UserProvider = ({ children }) => {
                 setIsSubmitting(false);
                 setFormCompleted(true);
                 toast.success('Registration successful!');
-                navigate('/dashboard', { state: { user: res.data } }); // ✅ Safe to use here
+                return { success: true, user: res.data };
             }
         } catch (error) {
             setIsSubmitting(false);
@@ -76,6 +74,7 @@ export const UserProvider = ({ children }) => {
             const msg = error?.response?.data?.message || 'Internal server error';
             toast.error(msg);
             setFormValidMessage(msg);
+            return { success: false };
         }
     };
 
