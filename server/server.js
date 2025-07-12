@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 })
 
 app.use(cors({
-    origin: [process.env.CLIENT_URL, 'http://localhost:5175'],
+    origin: [process.env.CLIENT_URL, 'http://localhost:5175', 'https://task-hive-orpin.vercel.app'],
     credentials: true,
     optionsSuccessStatus: 200,
     methods: 'GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS'
