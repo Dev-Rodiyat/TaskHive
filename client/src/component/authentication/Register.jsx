@@ -13,7 +13,7 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 const override = {
     display: 'block',
     margin: '100px auto',
-}
+} 
 
 const Register = () => {
     const [formData, setFormData] = useState({
