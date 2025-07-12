@@ -6,7 +6,7 @@ import DeleteTaskModal from '../Modals/DeleteTaskModal';
 import EditTaskModal from '../Modals/EditTaskModal';
 import { FiSearch, FiX } from 'react-icons/fi';
 
-const TaskList = () => {
+const TaskLisk = () => {
     const { tasks, fetchTasks, addTask, updateTask, deleteTask } = useTaskContext();
     const [isDeleteTaskModalaOpen, setIsDeleteTaskModalOpen] = useState(false);
     const [isEditTaskModalaOpen, setIsEditTaskModalOpen] = useState(false);
@@ -295,4 +295,4 @@ const TaskList = () => {
     );
 };
 
-export default TaskList;
+export default TaskLisk;

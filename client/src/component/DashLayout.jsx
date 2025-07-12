@@ -5,7 +5,7 @@ import { IoIosAdd, IoIosNotificationsOutline } from 'react-icons/io';
 import { AiOutlineUserDelete } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 import Dashboard from './Dashboard';
-import TaskLisk from './task/tasklisk';
+import TaskLisk from './task/TaskLisk';
 import Notification from './modals/Notification';
 import AddTaskModal from './Modals/AddTaskModal';
 import DeleteAccount from './modals/DeleteAccount';
