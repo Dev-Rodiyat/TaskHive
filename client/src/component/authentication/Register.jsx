@@ -30,8 +30,8 @@ const Register = () => {
     const [loading, setLoading] = useState(false);
     const [formCompleted, setFormCompleted] = useState(false);
 
-    const { register } = useUser();
-
+    const { register, user } = useUser();
+    
     const navigate = useNavigate();
 
     useEffect(() => {
