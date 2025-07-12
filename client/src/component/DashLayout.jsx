@@ -9,7 +9,7 @@ import TaskLisk from './task/TaskLisk';
 import Notification from './modals/Notification';
 import DeleteAccount from './modals/DeleteAccount';
 import Logout from './modals/Logout';
-import AddTaskModal from './Modals/AddTaskModal';
+import AddTaskModal from './task/AddTaskModal';
 
 export default function DashLayout() {
     const [activeTab, setActiveTab] = useState('dashboard');
