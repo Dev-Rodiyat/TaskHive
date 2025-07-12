@@ -11,7 +11,6 @@ import DeleteAccount from './modals/DeleteAccount';
 import Logout from './modals/Logout';
 import AddTaskModal from './task/AddTaskModal';
 
-
 export default function DashLayout() {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [notificationModalOpen, setNotificationModalOpen] = useState(false);
