@@ -97,8 +97,8 @@ export default function DashLayout() {
                             <button
                                 onClick={() => setActiveTab('dashboard')}
                                 className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${activeTab === 'dashboard'
-                                        ? 'bg-indigo-600 text-white'
-                                        : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
+                                    ? 'bg-indigo-600 text-white'
+                                    : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
                                     }`}
                             >
                                 <MdDashboard />
@@ -108,8 +108,8 @@ export default function DashLayout() {
                             <button
                                 onClick={() => setActiveTab('tasks')}
                                 className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${activeTab === 'tasks'
-                                        ? 'bg-indigo-600 text-white'
-                                        : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
+                                    ? 'bg-indigo-600 text-white'
+                                    : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
                                     }`}
                             >
                                 <FaTasks />
