@@ -5,10 +5,9 @@ const { generateToken } = require("../utils");
 
 const getInitials = (fullName) => {
     const names = fullName.trim().split(" ");
-    const initials = names
-        .slice(0, 2)
-        .map((n) => n[0].toUpperCase())
-        .join("");
+    const initials = names.length === 1
+        ? names[0][0].toUpperCase()
+        : names.slice(0, 2).map(n => n[0].toUpperCase()).join("");
     return initials;
 };
 
@@ -99,7 +98,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
         if (!email || !password) {
             console.error("Email or password not provided");
-            return res.status(404).json({ message: "Please add email and password" });
+            return res.status(400).json({ message: "Please add email and password" });
         }
 
         let user = await User.findOne({ email });
@@ -111,7 +110,7 @@ const loginUser = asyncHandler(async (req, res) => {
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: "Invalid Credentials" });
+            return res.status(401).json({ message: "Invalid Credentials" });
         }
 
         const token = generateToken(user._id);
@@ -147,7 +146,7 @@ const getUser = asyncHandler(async (req, res) => {
     try {
         const userId = req.userId;
 
-        const user = await User.findById(userId).select("-password")
+        const user = await User.findById(userId).select("-password").lean();
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -160,6 +159,35 @@ const getUser = asyncHandler(async (req, res) => {
         return res.status(500).json({ message: "Error fetching user data" });
     }
 });
+
+const updateUser = async (req, res) => {
+    try {
+        const userId = req.userId;
+
+        const { name } = req.body;
+
+        if (!name) {
+            return res.status(400).json({ message: 'Name and email are required' });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            {
+                name,
+            },
+            { new: true, runValidators: true }
+        ).select('-password');
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ updatedUser });
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}; 
 
 const deleteUser = asyncHandler(async (req, res) => {
     try {
@@ -180,7 +208,6 @@ const deleteUser = asyncHandler(async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
-
 
 const logoutUser = asyncHandler(async (req, res) => {
     try {
@@ -206,5 +233,6 @@ module.exports = {
     loginUser,
     logoutUser,
     deleteUser,
-    getUser
+    getUser,
+    updateUser
 }

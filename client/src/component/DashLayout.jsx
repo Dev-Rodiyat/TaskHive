@@ -77,20 +77,23 @@ export default function DashLayout() {
     };
 
     return (
-        <div className="flex min-h-screen bg-gray-100">
-            <main className="flex-1 pt-28 pb-6 px-4 md:px-8">
+        <div className="min-h-screen bg-gray-100">
+            <main className="pt-28 pb-6 px-4 sm:px-6 lg:px-8">
+
                 {/* Fixed Navbar */}
-                <header className="fixed top-6 left-4 right-4 md:left-10 md:right-10 z-50 px-6 py-4 bg-white flex justify-between items-center shadow-md rounded-xl">
-                    <h1 className="text-2xl font-bold text-indigo-600">TaskList</h1>
+                <header className="fixed top-6 left-4 right-4 sm:left-6 sm:right-6 lg:left-10 lg:right-10 z-50 px-4 sm:px-6 py-3 bg-white flex justify-between items-center shadow-md rounded-xl">
+                    <h1 className="text-2xl font-bold text-indigo-600">TaskHive</h1>
                     <button className="hover:bg-indigo-100 p-2 rounded-lg" onClick={openNotification}>
-                        <IoIosNotificationsOutline size={30} />
+                        <IoIosNotificationsOutline size={28} />
                     </button>
                 </header>
 
-                <div className="sticky top-32 z-40 px-2 md:px-4 pb-4">
-                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                {/* Main content area */}
+                <div className="pt-8">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
                         {/* Tabs */}
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-2">
                             <button
                                 onClick={() => setActiveTab('dashboard')}
                                 className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${activeTab === 'dashboard'
@@ -101,6 +104,7 @@ export default function DashLayout() {
                                 <MdDashboard />
                                 Dashboard
                             </button>
+
                             <button
                                 onClick={() => setActiveTab('tasks')}
                                 className={`px-4 py-2 flex items-center gap-2 rounded-lg transition ${activeTab === 'tasks'
@@ -114,7 +118,7 @@ export default function DashLayout() {
                         </div>
 
                         {/* Actions */}
-                        <div className="flex flex-wrap gap-3">
+                        <div className="flex flex-wrap gap-2">
                             <button
                                 className="bg-indigo-50 px-4 py-2 text-sm flex items-center gap-2 rounded-lg hover:bg-indigo-200 transition hover:shadow-sm"
                                 onClick={handleAddTaskModalOpen}
@@ -122,6 +126,7 @@ export default function DashLayout() {
                                 <IoIosAdd />
                                 New Task
                             </button>
+
                             <button
                                 className="bg-red-50 text-red-600 px-4 py-2 text-sm flex items-center gap-2 rounded-lg hover:bg-red-100 transition hover:shadow-sm"
                                 onClick={handleDeleteAccountModalOpen}
@@ -129,6 +134,7 @@ export default function DashLayout() {
                                 <AiOutlineUserDelete />
                                 Delete Account
                             </button>
+
                             <button
                                 className="bg-indigo-50 text-gray-700 px-4 py-2 text-sm flex items-center gap-2 rounded-lg hover:bg-indigo-200 transition hover:shadow-sm"
                                 onClick={handleLogoutModalOpen}
@@ -141,9 +147,10 @@ export default function DashLayout() {
                 </div>
 
                 {/* Tab Content */}
-                <div className="mt-8 px-2 md:px-4">{renderContent()}</div>
+                <div className="mt-8">{renderContent()}</div>
             </main>
 
+            {/* Modals */}
             {notificationModalOpen && <Notification onClose={closeNotification} />}
             {logoutModal && <Logout onClose={handleLogoutModalClose} />}
             {isDeleteAccountModalOpen && <DeleteAccount onClose={handleDeleteAccountModalClose} />}

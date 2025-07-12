@@ -1,8 +1,6 @@
 import { createContext, useContext, useState } from 'react';
-import axios from 'axios';
-
+import api from '../../utils/api';
 const TaskContext = createContext();
-const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export const TaskProvider = ({ children }) => {
     const [tasks, setTasks] = useState([]);
@@ -11,7 +9,7 @@ export const TaskProvider = ({ children }) => {
     const fetchTasks = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`${SERVER_URL}/task/get-all-tasks`, { withCredentials: true });
+            const res = await api.get(`/task/get-all-tasks`, { withCredentials: true });
             console.log({ res })
             setTasks(res.data);
         } catch (err) {
@@ -23,7 +21,7 @@ export const TaskProvider = ({ children }) => {
 
     const addTask = async (newTask) => {
         try {
-            const res = await axios.post(`${SERVER_URL}/task/create-task`, newTask, { withCredentials: true });
+            const res = await api.post(`/task/create-task`, newTask, { withCredentials: true });
             setTasks(prev => [res.data, ...prev]);
         } catch (err) {
             console.error('Error creating task:', err);
@@ -32,7 +30,7 @@ export const TaskProvider = ({ children }) => {
 
     const updateTask = async (taskId, updatedData) => {
         try {
-            const res = await axios.put(`${SERVER_URL}/task/update-task/${taskId}`, updatedData, {
+            const res = await api.put(`/task/update-task/${taskId}`, updatedData, {
                 withCredentials: true,
             });
             setTasks(prev =>
@@ -43,10 +41,9 @@ export const TaskProvider = ({ children }) => {
         }
     };
 
-    // Delete a task by ID
     const deleteTask = async (taskId) => {
         try {
-            await axios.delete(`${SERVER_URL}/task/delete-task/${taskId}`, {
+            await api.delete(`/task/delete-task/${taskId}`, {
                 withCredentials: true,
             });
             setTasks(prev => prev.filter(task => task._id !== taskId));

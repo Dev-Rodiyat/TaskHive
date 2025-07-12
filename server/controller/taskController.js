@@ -7,11 +7,18 @@ const createTask = asyncHandler(async (req, res) => {
     const userId = req.userId;
 
     if (!title || !dueDate) {
-        return res.status(400).json({ message: 'Title, priority, and due date are required' });
+        return res.status(400).json({ message: 'Title and due date are required' });
     }
 
     if (!userId) {
         return res.status(401).json({ message: 'Unauthorized: No user ID' });
+    }
+
+    const now = new Date();
+    const due = new Date(dueDate);
+
+    if (due < now.setHours(0, 0, 0, 0)) {
+        return res.status(400).json({ message: 'Due date cannot be in the past' });
     }
 
     try {
@@ -49,11 +56,18 @@ const updateTask = asyncHandler(async (req, res) => {
             return res.status(404).json({ message: 'Task Not Found' });
         }
 
-        // Only update fields if they are explicitly provided
+        if (dueDate !== undefined) {
+            const now = new Date();
+            const due = new Date(dueDate);
+            if (due < now.setHours(0, 0, 0, 0)) {
+                return res.status(400).json({ message: 'Due date cannot be in the past' });
+            }
+            task.dueDate = dueDate;
+        }
+
         if (title !== undefined) task.title = title;
         if (priority !== undefined) task.priority = priority;
         if (status !== undefined) task.status = status;
-        if (dueDate !== undefined) task.dueDate = dueDate;
         if (project !== undefined) task.project = project;
 
         const updatedTask = await task.save();

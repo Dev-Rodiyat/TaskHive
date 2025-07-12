@@ -1,6 +1,7 @@
 import React from 'react';
 import { ClipLoader } from 'react-spinners';
 import { motion } from "framer-motion";
+import { toast } from 'react-toastify';
 
 
 const DeleteTaskModal = ({ task, onClose, onDeleteTask, loading }) => {
@@ -12,6 +13,7 @@ const DeleteTaskModal = ({ task, onClose, onDeleteTask, loading }) => {
     const handleDelete = () => {
         if (task?._id) {
             onDeleteTask(task._id);
+            toast.success('Task deleted successfully!')
         }
     };
 

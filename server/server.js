@@ -7,6 +7,7 @@ const cors = require("cors");
 const errorHandler = require("./middleware/errorMiddleware");
 const userRoute = require("./route/userRoute");
 const taskRoute = require("./route/taskRoute");
+const notificationRoute = require("./route/notificationRoute");
 
 const app = express();
 const PORT = process.env.PORT || 2000;
@@ -29,6 +30,7 @@ app.use(cors({
 
 app.use("/user", userRoute);
 app.use('/task', taskRoute)
+app.use("/notification", notificationRoute);
 
 app.get('/', (req, res) => console.log('Success'));
 
