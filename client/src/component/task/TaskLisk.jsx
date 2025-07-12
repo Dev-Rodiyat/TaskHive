@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BiEdit } from 'react-icons/bi';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { useTaskContext } from '../context/TaskContext';
-import DeleteTaskModal from '../Modals/DeleteTaskModal';
-import EditTaskModal from '../Modals/EditTaskModal';
+import DeleteTaskModal from './DeleteTaskModal';
+import EditTaskModal from './EditTaskModal';
 import { FiSearch, FiX } from 'react-icons/fi';
 
 const TaskLisk = () => {
