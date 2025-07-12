@@ -16,20 +16,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const allowedOrigins = [process.env.CLIENT_URL, 'https://task-hive-orpin.vercel.app'];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: 'https://task-hive-orpin.vercel.app',
   credentials: true,
   methods: 'GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS',
   optionsSuccessStatus: 200,
 }));
+
 
 app.use("/user", userRoute);
 app.use('/task', taskRoute)
