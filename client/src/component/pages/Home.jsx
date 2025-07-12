@@ -1,8 +1,7 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import taskImage from './../assets/task.png';
-import { useUser } from './context/UserContext';
+import taskImage from './../../assets/task.png';
 import Header from './Header';
 import Footer from './Footer';
 

@@ -5,11 +5,11 @@ import { IoIosAdd, IoIosNotificationsOutline } from 'react-icons/io';
 import { AiOutlineUserDelete } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 import Dashboard from './Dashboard';
-import TaskLisk from './task/TaskLisk';
-import Notification from './modals/Notification';
-import DeleteAccount from './modals/DeleteAccount';
-import Logout from './modals/Logout';
-import AddTaskModal from './task/AddTaskModal';
+import TaskLisk from '../task/TaskLisk';
+import Notification from '../modals/Notification';
+import DeleteAccount from '../modals/DeleteAccount';
+import Logout from '../modals/Logout';
+import AddTaskModal from '../task/AddTaskModal';
 
 export default function DashLayout() {
     const [activeTab, setActiveTab] = useState('dashboard');

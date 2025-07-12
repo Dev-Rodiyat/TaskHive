@@ -1,19 +1,16 @@
-
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import { BsCheck2All } from 'react-icons/bs';
 import { ClipLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import PasswordInput from './PasswordInput';
-
-const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+import { useUser } from '../context/UserContext'; // adjust this path if needed
 
 const override = {
     display: 'block',
     margin: '100px auto',
-} 
+};
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -22,28 +19,38 @@ const Register = () => {
         password: '',
         confirmPassword: ''
     });
+
     const [uCase, setUCase] = useState(false);
     const [num, setNum] = useState(false);
     const [sChar, setSChar] = useState(false);
     const [passwordLength, setPasswordLength] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [formValidMessage, setFormValidMessage] = useState(false)
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formValidMessage, setFormValidMessage] = useState(false);
     const [loading, setLoading] = useState(false);
     const [formCompleted, setFormCompleted] = useState(false);
 
+    const { register } = useUser();
+
     const navigate = useNavigate();
 
-    const timesIcon = <FaTimes color='red' size={20} />
-    const checkIcon = <BsCheck2All color='green' size={20} />
+    useEffect(() => {
+        if (user) {
+            navigate('/dashboard');
+        }
+    }, [user, navigate]);
+
+    const timesIcon = <FaTimes color='red' size={20} />;
+    const checkIcon = <BsCheck2All color='green' size={20} />;
 
     const switchIcon = (condition) => {
-        return condition ? checkIcon : timesIcon
-    }
+        return condition ? checkIcon : timesIcon;
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }))
-    }
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
 
     useEffect(() => {
         const password = formData.password;
@@ -53,56 +60,21 @@ const Register = () => {
         setPasswordLength(password.length > 5);
     }, [formData.password]);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-
-        try {
-            const { name, email, password, confirmPassword } = formData;
-
-            if (!name || !email || !password || !confirmPassword) {
-                setFormValidMessage('OOps, All fields are required');
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                setFormValidMessage('Oops, Password does not match');
-                return;
-            }
-            setIsSubmitting(true);
-            setLoading(true);
-
-            const response = await axios.post(`${SERVER_URL}/user/register`, formData, { withCredentials: true });
-
-            if (response?.data) {
-                setLoading(false)
-                // setUser(response.data)
-                setIsSubmitting(false)
-                setFormCompleted(true);
-                toast.success('Registration Successful');
-                navigate('/dashboard', { state: { user: response.data } })
-            }
-
-        } catch (error) {
-            setIsSubmitting(false);
-            toast.error(error?.response?.data?.message)
-            const message = error?.response?.data?.message ? `${error.response.data.message}` : 'Internal server error'
-            console.log(error)
-            setFormValidMessage(message);
-            setLoading(false);
-        }
-    }
+        register(formData, setLoading, setIsSubmitting, setFormValidMessage, setFormCompleted);
+    };
 
     const handlePastePassword = (e) => {
         e.preventDefault();
         toast.error('Cannot paste into this field');
-        return;
-    }
+    };
 
     return (
         <>
             {loading ? (
                 <div className="flex justify-center items-center h-screen">
-                    <ClipLoader color="#1a80e5" loading={loading} cssOverride={override}/>
+                    <ClipLoader color="#1a80e5" loading={loading} cssOverride={override} />
                 </div>
             ) : (
                 <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -146,7 +118,6 @@ const Register = () => {
                             <div className="flex flex-col">
                                 <label htmlFor="password" className="text-sm text-gray-600 mb-1">Password:</label>
                                 <PasswordInput
-                                    type="password"
                                     name="password"
                                     placeholder="Enter Your Password"
                                     onChange={handleInputChange}
@@ -160,7 +131,6 @@ const Register = () => {
                             <div className="flex flex-col">
                                 <label htmlFor="confirmPassword" className="text-sm text-gray-600 mb-1">Confirm Password:</label>
                                 <PasswordInput
-                                    type="password"
                                     name="confirmPassword"
                                     placeholder="Confirm Password"
                                     onChange={handleInputChange}
@@ -186,7 +156,7 @@ const Register = () => {
                                 type="submit"
                                 disabled={isSubmitting}
                                 className={`w-full py-2 rounded-lg font-medium text-white transition
-              ${isSubmitting ? 'bg-indigo-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'}`}
+                ${isSubmitting ? 'bg-indigo-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'}`}
                             >
                                 {isSubmitting ? 'Signing you up...' : 'Create Account'}
                             </button>
@@ -199,7 +169,7 @@ const Register = () => {
 
                         {/* Login redirect */}
                         <p className="mt-6 text-center text-sm text-gray-600">
-                            Already have an account?{" "}
+                            Already have an account?{' '}
                             <Link to="/login" className="text-indigo-600 hover:underline font-medium">
                                 Login
                             </Link>
@@ -208,7 +178,7 @@ const Register = () => {
                 </div>
             )}
         </>
-    )
-}
+    );
+};
 
-export default Register
+export default Register;

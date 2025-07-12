@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import taskImage from './../assets/task.png';
+import taskImage from './../../assets/task.png';
 import { motion } from 'framer-motion';
 import WeeklyProgressChart from './WeeklyProgressChart';
-import { useUser } from './context/UserContext';
+import { useUser } from '../context/UserContext';
 import { ClipLoader } from 'react-spinners';
-import { useTaskContext } from './context/TaskContext';
-import EditProfileModal from './modals/EditProfileModal';
+import { useTaskContext } from '../context/TaskContext';
+import EditProfileModal from '../modals/EditProfileModal';
 import { MdEdit } from 'react-icons/md';
-import AddTaskModal from './task/AddTaskModal';
+import AddTaskModal from '../task/AddTaskModal';
 
 const override = {
     display: 'block',

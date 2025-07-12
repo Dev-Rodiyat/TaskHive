@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUser } from '../context/UserContext';
 import { toast } from 'react-toastify';
 
 export default function EditProfileModal({ isOpen, onClose }) {
     const { user, updateUserProfile } = useUser();
-    const [formData, setFormData] = useState({
-        name: user?.name || '',
-        email: user?.email || '',
-        image: user?.image || '',
-    });
+    const [formData, setFormData] = useState({ name: '' });
     const [saving, setSaving] = useState(false);
+
+    useEffect(() => {
+        if (user?.name) {
+            setFormData({ name: user.name });
+        }
+    }, [user]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,13 +23,16 @@ export default function EditProfileModal({ isOpen, onClose }) {
         const res = await updateUserProfile(formData);
         setSaving(false);
         if (res.success) {
-            onClose()
-            toast.success('Profile Updated Successfully!')
+            onClose();
+            toast.success('Profile Updated Successfully!');
+        } else {
+            toast.error('Failed to update profile.');
         }
-        else toast.error('Failed to update profile.');
     };
 
     if (!isOpen) return null;
+
+    const isUnchanged = formData.name.trim() === (user?.name || '').trim();
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
@@ -53,8 +58,12 @@ export default function EditProfileModal({ isOpen, onClose }) {
                         </button>
                         <button
                             type="submit"
-                            disabled={saving}
-                            className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                            disabled={saving || isUnchanged}
+                            className={`px-4 py-2 rounded text-white ${
+                                saving || isUnchanged
+                                    ? 'bg-indigo-300 cursor-not-allowed'
+                                    : 'bg-indigo-600 hover:bg-indigo-700'
+                            }`}
                         >
                             {saving ? 'Saving...' : 'Save'}
                         </button>

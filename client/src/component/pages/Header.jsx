@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useUser } from './context/UserContext';
+import { useUser } from '../context/UserContext';
 
 const Header = () => {
     const { user } = useUser();

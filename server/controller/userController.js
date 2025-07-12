@@ -163,31 +163,38 @@ const getUser = asyncHandler(async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const userId = req.userId;
-
         const { name } = req.body;
 
         if (!name) {
-            return res.status(400).json({ message: 'Name and email are required' });
+            return res.status(400).json({ message: 'Name is required' });
         }
 
-        const updatedUser = await User.findByIdAndUpdate(
-            userId,
-            {
-                name,
-            },
-            { new: true, runValidators: true }
-        ).select('-password');
-
-        if (!updatedUser) {
+        const user = await User.findById(userId);
+        if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        res.status(200).json({ updatedUser });
+        user.name = name;
+
+        const isDefaultImage = user.image?.includes("placehold.co") && user.image?.includes("?text=");
+        if (isDefaultImage) {
+            const initials = getInitials(name);
+            const { h, s, l } = getRandomPurpleShade();
+            const bgColor = hslToHex(h, s, l);
+            const textColor = "FFFFFF";
+
+            user.image = `https://placehold.co/150x150/${bgColor}/${textColor}?text=${initials}&font=inter`;
+        }
+
+        const updatedUser = await user.save();
+        const { password, ...userData } = updatedUser.toObject();
+
+        res.status(200).json({ updatedUser: userData });
     } catch (error) {
         console.error('Error updating user:', error);
         res.status(500).json({ message: 'Server error' });
     }
-}; 
+};
 
 const deleteUser = asyncHandler(async (req, res) => {
     try {

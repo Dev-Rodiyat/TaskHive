@@ -17,12 +17,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: 'https://task-hive-orpin.vercel.app',
+  origin: process.env.CLIENT_URL,
   credentials: true,
   methods: 'GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS',
   optionsSuccessStatus: 200,
 }));
-
 
 app.use("/user", userRoute);
 app.use('/task', taskRoute)
