@@ -7,9 +7,9 @@ import { motion } from 'framer-motion';
 import Dashboard from './Dashboard';
 import TaskLisk from './task/TaskLisk';
 import Notification from './modals/Notification';
-import AddTaskModal from './Modals/AddTaskModal';
 import DeleteAccount from './modals/DeleteAccount';
 import Logout from './modals/Logout';
+import AddTaskModal from './Modals/AddTaskModal';
 
 export default function DashLayout() {
     const [activeTab, setActiveTab] = useState('dashboard');

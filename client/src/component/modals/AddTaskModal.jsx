@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import api from '../../utils/api';
 import { toast } from 'react-toastify';
